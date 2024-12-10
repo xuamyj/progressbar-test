@@ -2,43 +2,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 
-// /* ---- DATA ---- */
-// public class CutsceneInfo
-// {
-//     public string cutsceneKey; // "clerk"
-//     public string yarnNodeName; // "Clerk"
-//     public string backgroundUrl; // "day1-clerk.png"
-//     // other properties added later
-
-//     public CutsceneInfo(string cKey, string yNName, string bUrl)
-//             : base() // calls base first
-//     {
-//         cutsceneKey = cKey;
-//         yarnNodeName = yNName;
-//         backgroundUrl = bUrl;
-//     }
-// }
 
 public class QDialogueController : MonoBehaviour
 {
     // /* ---- UI: DRAGGED ---- */
-    // public UnityEngine.UI.Image backgroundImage;
-    public GameObject cutsceneCanvas;
+    public GameObject qDialogueCanvas;
 
-    // /* ---- DATA, should be used like a const ---- */
-    // private Dictionary<string, CutsceneInfo> cutsceneInfoMap;
+    /* ---- DATA but treat like const ---- */
+    const string TRAINING_PREFIX = "Training";
+    Dictionary<TrainingStatus, string> TRAINING_LINE_MAP;
 
     /* ---- YARN ---- */
-    DialogueRunner cutsceneRunner;
+    DialogueRunner qDialogueRunner;
+
     private void Awake()
     {
-        cutsceneRunner = gameObject.GetComponent<DialogueRunner>();
+        qDialogueRunner = gameObject.GetComponent<DialogueRunner>();
 
-        // /* ---- DATA ---- */
-        // cutsceneInfoMap = new Dictionary<string, CutsceneInfo>();
-        // cutsceneInfoMap["clerk"] = new CutsceneInfo("clerk", "Clerk", "cutscene/day1-clerk");
-        // cutsceneInfoMap["wally"] = new CutsceneInfo("wally", "Wally", "cutscene/day1-wally");
-        // cutsceneInfoMap["eat"] = new CutsceneInfo("eat", "Eat", "cutscene/town1-bg");
+        /* ---- DATA but treat like const ---- */
+        TRAINING_LINE_MAP = new Dictionary<TrainingStatus, string>();
+        TRAINING_LINE_MAP[TrainingStatus.Collab] = "Collab";
+        TRAINING_LINE_MAP[TrainingStatus.Perfect] = "Perfect";
+        TRAINING_LINE_MAP[TrainingStatus.Great] = "Great";
+        // Good = no line
+        TRAINING_LINE_MAP[TrainingStatus.NewSkill] = "NewSkill";
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -54,24 +41,27 @@ public class QDialogueController : MonoBehaviour
     }
 
     /* 
-        StatusController's BigToCutsceneScreen()
+        StatusController's BigToqDialogueScreen()
         -> this SetupAndStartDialogue()
         -> Yarn's StartDialogue()
     */
-    // public void SetupAndStartDialogue(string cutsceneKey)
+    // public void SetupAndStartDialogue(string qDialogueKey)
     public void SetupAndStartDialogue()
     {
-        // string yNName = cutsceneInfoMap[cutsceneKey].yarnNodeName;
-        // string bUrl = cutsceneInfoMap[cutsceneKey].backgroundUrl;
+        CharacterName cName = CharacterName.Evander;
+        TrainingStatus tStatusName = TrainingStatus.Collab;
 
-        // // set active + background
-        cutsceneCanvas.SetActive(true);
-        // backgroundImage.sprite = Resources.Load<Sprite>(bUrl);
+        if (TRAINING_LINE_MAP.ContainsKey(tStatusName))
+        {
+            string yNName = TRAINING_PREFIX + TRAINING_LINE_MAP[tStatusName] + cName.ToString();
 
-        string yNName = "TestScript";
-
-        // set script
-        cutsceneRunner.StartDialogue(yNName);
+            // set script
+            qDialogueRunner.StartDialogue(yNName);
+        }
+        else
+        {
+            UnityEngine.Debug.Log("TrainingStatus is " + tStatusName.ToString() + ", no dialogue");
+        }
     }
     /* 
         Yarn's OnDialogueComplete() [upon Stop()]
@@ -80,10 +70,6 @@ public class QDialogueController : MonoBehaviour
     */
     public void StopAndToInWorld()
     {
-        // unset active
-        cutsceneCanvas.SetActive(false);
-        // backgroundImage.sprite = Resources.Load<Sprite>(CUTSCENE_BLANK_URL);
 
-        // StatusController.instance.BigToInWorldScreen();
     }
 }
