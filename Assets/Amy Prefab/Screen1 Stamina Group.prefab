@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3713975018259602462}
   m_Layer: 5
-  m_Name: Stamina Group
+  m_Name: Screen1 Stamina Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
