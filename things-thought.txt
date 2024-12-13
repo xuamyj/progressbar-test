@@ -5,3 +5,32 @@
 screen 3: 
 - De notes that the event should train you further! not 5 stars. maybe if you do get "5 stars" you can get a free fish, om nom
 - for the animation, do i want to keep track of scenes seen like in feh? 
+
+----
+
+- supports is one hashmap-with-concat, levels will be too. (it's ok that people are husks, because you don't want one Isadora game object to be the definitive one and others possibly diverge. characters interact with too many different systems)
+- characters probably do go in world, and hover will be implemented there (pair later). it's ok for background to be sideways-not-topdown, because they won't move
+- with characters that have dialogue, it does need to be more 'rigid' (fe3h) less 'seamless' (palworld). like, palworld has no dialogue
+- state machine: BigStatus includes Traveling_Training, Traveling_Overworld, etc. LittleStatus is the screens. clicking on the player is stored, but not part of LittleStatus
+
+- Traveling: 
+    - inventory -> goes to real world but in your cart 
+    - supports -> goes to support menu / viewer
+    - training (grays out when training is done) -> this screen
+    - view traveling -> importantly, see yourself on the world map, not driving just bounce
+    - presumably save, etc
+- Gathering: (note that toolbox is separate: tools do not go in inventory, very easy to swap, you always have space for all tools. if later add taking things out/putting it back in, that's just for if you want to get rid of a tool, not to manage space. ie. game centered not around tools to get things, but the things gotten and then crafted) 
+    - pickup (currently exists)
+    - digging -> for clay, similar to stardew
+    - fishing -> the meditative one, go from there
+    - later: mining?
+    - could be other ways too! De says the more the better
+    - however, most likely never: chopping. just get your logs from Nadira lol
+
+things to study / do next: 
+- data: status, the 2 hashmap-with-concats
+- move characters to regular world (for hover)
+- video: anchors. [De says to also watch layout, ..tbd we'll see]
+- video: how to use prefabs effectively. [currently it's 'tiny piece' or 'mini version control']
+- generate art for items? (and figure out how they are procured)
+- draw buildings, + overworld
